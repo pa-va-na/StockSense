@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: pavana
+      POSTGRES_PASSWORD: stocksense1234
+      POSTGRES_DB: stocksense_db
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
