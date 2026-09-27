@@ -14,6 +14,14 @@ conn=psycopg2.connect(
     password=os.getenv("DB_PASSWORD")
 )
 app = FastAPI()
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 @app.get("/")
 def read_root():
     return {"message": "hello"}
@@ -61,3 +69,18 @@ def get_forecast(product_id: int, days: int = 7):
 @app.get("/forecast/{product_id}")
 def forecast_endpoint(product_id: int, days: int = 7):
     return get_forecast(product_id, days)
+@app.get("/inventory-overview")
+def get_inventory_overview():
+    query = """
+        SELECT 
+            p.product_id, 
+            p.name, 
+            p.category,
+            COALESCE(SUM(r.quantity), 0) - COALESCE(SUM(si.quantity_sold), 0) AS current_stock
+        FROM PRODUCT p
+        LEFT JOIN RESTOCK r ON p.product_id = r.product_id
+        LEFT JOIN SALEITEM si ON p.product_id = si.product_id
+        GROUP BY p.product_id, p.name, p.category
+    """
+    df = pd.read_sql(query, conn)
+    return df.to_dict(orient="records")
