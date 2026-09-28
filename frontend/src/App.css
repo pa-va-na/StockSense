@@ -189,3 +189,19 @@ tr:not(.low-stock) .stock-cell { color: var(--color-sage); }
 .forecast-card {
   padding-bottom: 16px;
 }
+.chart-card {
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.chart-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+
+.chart-note {
+  font-size: 0.85rem;
+  color: var(--color-navy);
+  opacity: 0.6;
+  margin-bottom: 16px;
+}

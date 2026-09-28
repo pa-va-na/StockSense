@@ -84,3 +84,26 @@ def get_inventory_overview():
     """
     df = pd.read_sql(query, conn)
     return df.to_dict(orient="records")
+@app.get("/analytics/category-totals")
+def category_totals():
+    query = """
+        SELECT p.category, SUM(si.quantity_sold) AS total_sold
+        FROM SALEITEM si
+        JOIN PRODUCT p ON si.product_id = p.product_id
+        GROUP BY p.category
+        ORDER BY total_sold DESC
+    """
+    df = pd.read_sql(query, conn)
+    return df.to_dict(orient="records")
+
+@app.get("/analytics/product-totals")
+def product_totals():
+    query = """
+        SELECT p.name, SUM(si.quantity_sold) AS total_sold
+        FROM SALEITEM si
+        JOIN PRODUCT p ON si.product_id = p.product_id
+        GROUP BY p.name
+        ORDER BY total_sold ASC
+    """
+    df = pd.read_sql(query, conn)
+    return df.to_dict(orient="records")

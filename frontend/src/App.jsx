@@ -3,7 +3,7 @@ import './App.css';
 import logo from './assets/logo.png';
 import InventoryOverview from './InventoryOverview';
 import ForecastDashboard from './ForecastDashboard';
-
+import AnalyticsPage from './AnalyticsPage';
 function App() {
   const [activeTab, setActiveTab] = useState('inventory');
 
@@ -30,12 +30,19 @@ function App() {
           >
             Forecast
           </button>
+          <button
+            className={activeTab === 'analytics' ? 'tab active' : 'tab'}
+            onClick={() => setActiveTab('analytics')}
+          >
+            Insights
+          </button>
         </nav>
       </header>
 
       <main className="app">
         {activeTab === 'inventory' && <InventoryOverview />}
         {activeTab === 'forecast' && <ForecastDashboard />}
+        {activeTab === 'analytics' && <AnalyticsPage />}
       </main>
     </div>
   );
