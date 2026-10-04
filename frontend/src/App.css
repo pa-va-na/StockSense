@@ -205,3 +205,40 @@ tr:not(.low-stock) .stock-cell { color: var(--color-sage); }
   opacity: 0.6;
   margin-bottom: 16px;
 }
+.restock-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  max-width: 420px;
+}
+
+.restock-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--color-navy);
+}
+
+.restock-form input, .restock-form select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--color-cream);
+  font-family: var(--font-body);
+}
+
+.restock-form button {
+  background: var(--color-sage);
+  color: var(--color-navy-dark);
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.form-message {
+  color: var(--color-sage);
+  font-weight: 600;
+}

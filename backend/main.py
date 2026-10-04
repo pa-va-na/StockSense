@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 import pandas as pd
 from prophet import Prophet 
+from pydantic import BaseModel
 load_dotenv()
 conn=psycopg2.connect(
     host=os.getenv("DB_HOST"),
@@ -14,6 +15,19 @@ conn=psycopg2.connect(
     password=os.getenv("DB_PASSWORD")
 )
 app = FastAPI()
+class RestockIn(BaseModel):
+    product_id: int
+    dealer_id: int
+    shop_id: int
+    batch_no: str
+    quantity: int
+    cost_price: float
+    order_date: str
+    delivery_date: str
+    manufacture_date: str
+    expiry_date: str
+
+app = FastAPI()
 from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(
@@ -22,6 +36,20 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+@app.post("/restock")
+def add_restock(restock: RestockIn):
+    cur = conn.cursor()
+    cur.execute(
+        """INSERT INTO RESTOCK (product_id, dealer_id, shop_id, batch_no, quantity,
+                                 cost_price, order_date, delivery_date,
+                                 manufacture_date, expiry_date)
+           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+        (restock.product_id, restock.dealer_id, restock.shop_id, restock.batch_no,
+         restock.quantity, restock.cost_price, restock.order_date, restock.delivery_date,
+         restock.manufacture_date, restock.expiry_date)
+    )
+    conn.commit()
+    return {"message": "Restock added successfully"}
 @app.get("/")
 def read_root():
     return {"message": "hello"}

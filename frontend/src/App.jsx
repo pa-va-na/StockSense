@@ -4,6 +4,7 @@ import logo from './assets/logo.png';
 import InventoryOverview from './InventoryOverview';
 import ForecastDashboard from './ForecastDashboard';
 import AnalyticsPage from './AnalyticsPage';
+import RestockForm from './RestockForm'; 
 function App() {
   const [activeTab, setActiveTab] = useState('inventory');
 
@@ -36,6 +37,13 @@ function App() {
           >
             Insights
           </button>
+        
+          <button
+            className={activeTab === 'restock' ? 'tab active' : 'tab'}
+            onClick={() => setActiveTab('restock')}
+          >
+            Log Restock
+          </button>
         </nav>
       </header>
 
@@ -43,6 +51,7 @@ function App() {
         {activeTab === 'inventory' && <InventoryOverview />}
         {activeTab === 'forecast' && <ForecastDashboard />}
         {activeTab === 'analytics' && <AnalyticsPage />}
+        {activeTab === 'restock' && <RestockForm />}
       </main>
     </div>
   );
