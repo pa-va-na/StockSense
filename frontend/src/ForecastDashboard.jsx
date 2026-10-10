@@ -24,7 +24,7 @@ function ForecastDashboard() {
     <>
       <div className="page-heading">
         <h1>Forecast Dashboard</h1>
-        <p className="subtitle">7-day demand forecast, powered by Prophet</p>
+        <p className="subtitle">7-day demand forecast after the last recorded sale (dataset ends Dec 31, 2017)</p>
       </div>
 
       <div className="table-card forecast-card">

@@ -9,8 +9,9 @@ function InventoryOverview() {
       .then(data => setProducts(data));
   }, []);
 
-  const lowStockCount = products.filter(p => p.current_stock < 0).length;
-  const healthyCount = products.length - lowStockCount;
+  const needsRestockCount = products.filter(p => p.status !== 'ok').length;
+  const healthyCount = products.filter(p => p.status === 'ok').length;
+  const statusLabels = { ok: 'Healthy', low: 'Reorder soon', out: 'Out of stock' };
 
   return (
     <>
@@ -29,7 +30,7 @@ function InventoryOverview() {
           <span className="stat-label">Healthy Stock</span>
         </div>
         <div className="stat-card stat-rose">
-          <span className="stat-value">{lowStockCount}</span>
+          <span className="stat-value">{needsRestockCount}</span>
           <span className="stat-label">Needs Restock</span>
         </div>
       </div>
@@ -41,14 +42,16 @@ function InventoryOverview() {
               <th>Name</th>
               <th>Category</th>
               <th>Current Stock</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
             {products.map((p) => (
-              <tr key={p.product_id} className={p.current_stock < 0 ? 'low-stock' : ''}>
+              <tr key={p.product_id} className={`row-${p.status}`}>
                 <td>{p.name}</td>
                 <td><span className={`badge badge-${p.category.toLowerCase()}`}>{p.category}</span></td>
                 <td className="stock-cell">{p.current_stock}</td>
+                <td><span className={`status status-${p.status}`}>{statusLabels[p.status]}</span></td>
               </tr>
             ))}
           </tbody>

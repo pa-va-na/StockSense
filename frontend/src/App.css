@@ -127,9 +127,19 @@ tbody tr:last-child td { border-bottom: none; }
 tbody tr:hover td { background: var(--color-pink); }
 
 .stock-cell { font-weight: 600; }
-tr.low-stock .stock-cell { color: var(--color-rose); }
-tr:not(.low-stock) .stock-cell { color: var(--color-sage); }
+.row-ok .stock-cell { color: var(--color-sage); }
+.row-low .stock-cell, .row-out .stock-cell { color: var(--color-rose); }
 
+.status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.status-ok { background: #e8ecdf; color: #5f7a3e; }
+.status-low { background: var(--color-cream); color: #8a7a1f; }
+.status-out { background: var(--color-pink); color: #b05a5a; }
 .badge {
   display: inline-block;
   padding: 4px 12px;
@@ -240,5 +250,9 @@ tr:not(.low-stock) .stock-cell { color: var(--color-sage); }
 
 .form-message {
   color: var(--color-sage);
+  font-weight: 600;
+}
+.form-error {
+  color: var(--color-rose);
   font-weight: 600;
 }

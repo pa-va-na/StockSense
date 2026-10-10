@@ -15,7 +15,7 @@ function RestockForm() {
     expiry_date: '',
   });
   const [message, setMessage] = useState('');
-
+  const [error, setError] = useState('');
   useEffect(() => {
     fetch('http://127.0.0.1:8000/inventory-overview')
       .then(res => res.json())
@@ -28,6 +28,9 @@ function RestockForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setMessage('');
+    setError('');
+
     fetch('http://127.0.0.1:8000/restock', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -40,8 +43,12 @@ function RestockForm() {
         cost_price: Number(formData.cost_price),
       }),
     })
-      .then(res => res.json())
-      .then(data => setMessage(data.message));
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Something went wrong');
+        setMessage(data.message);
+      })
+      .catch((err) => setError(err.message));
   };
 
   return (
@@ -99,6 +106,7 @@ function RestockForm() {
 
         <button type="submit">Add Restock</button>
         {message && <p className="form-message">{message}</p>}
+        {error && <p className="form-error">{error}</p>}
       </form>
     </>
   );

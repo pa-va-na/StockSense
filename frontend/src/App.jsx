@@ -5,6 +5,7 @@ import InventoryOverview from './InventoryOverview';
 import ForecastDashboard from './ForecastDashboard';
 import AnalyticsPage from './AnalyticsPage';
 import RestockForm from './RestockForm'; 
+import SaleForm from './SaleForm';
 function App() {
   const [activeTab, setActiveTab] = useState('inventory');
 
@@ -37,7 +38,12 @@ function App() {
           >
             Insights
           </button>
-        
+          <button
+            className={activeTab === 'sale' ? 'tab active' : 'tab'}
+            onClick={() => setActiveTab('sale')}
+          >
+            Record Sale
+          </button>
           <button
             className={activeTab === 'restock' ? 'tab active' : 'tab'}
             onClick={() => setActiveTab('restock')}
@@ -52,6 +58,7 @@ function App() {
         {activeTab === 'forecast' && <ForecastDashboard />}
         {activeTab === 'analytics' && <AnalyticsPage />}
         {activeTab === 'restock' && <RestockForm />}
+        {activeTab === 'sale' && <SaleForm />}
       </main>
     </div>
   );
